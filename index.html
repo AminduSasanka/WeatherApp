@@ -18,26 +18,14 @@
         <!-- current weather widget -->
         <div class="current-info">
           <h3 class="heading">Current weather</h3>
-          <p class="sub-heading">12:53PM 2nd of july on Sri Lanka</p>
+          <p class="sub-heading"></p>
           <div class="weather-condition">
-            <div class="weather-img">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-brightness-high"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
-                />
-              </svg>
-            </div>
+            <div class="weather-img"></div>
             <div class="info">
               <h1 class="heading">sunny</h1>
+              <p class="description"></p>
               <h1 class="sub-heading">30<sup>o</sup>C</h1>
-              <p>feels like 30<sup>o</sup>C</p>
+              <p class="temp-feelsLike">feels like 30<sup>o</sup>C</p>
             </div>
           </div>
           <div class="misc-condition">
@@ -48,21 +36,31 @@
               <p>visibility</p>
             </div>
             <div class="separator"></div>
-            <div class="bottom-row">
-              <p>wind</p>
-              <p>wind</p>
-              <p>wind</p>
-              <p>wind</p>
-            </div>
+            <div class="bottom-row"></div>
           </div>
         </div>
 
-        <!-- today weather widget -->
-        <div class="today-info">tomorrow info</div>
-        <div class="misc-info">misc info</div>
+        <div class="second-col">
+          <!-- more details widget -->
+          <div class="more-info">
+            <h3 class="heading">Weather info</h3>
+            <div class="info"></div>
+          </div>
+
+          <!-- location details widget -->
+          <div class="location-info">
+            <h3 class="heading">Location info</h3>
+            <div class="info"></div>
+          </div>
+        </div>
       </div>
     </main>
 
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
     <script src="index.js"></script>
   </body>
 </html>
