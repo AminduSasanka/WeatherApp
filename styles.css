@@ -24,6 +24,21 @@ main {
   place-content: center;
   transition: 0.5s all ease;
 }
+main .top-bar {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  padding: 0.5rem;
+}
+main .top-bar img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+main .top-bar img:hover {
+  transform: rotate(90);
+}
 
 .wrapper {
   width: clamp(300px, 90%, 700px);

@@ -14,7 +14,7 @@ $(document).ready(async () => {
         if (lat && lon) {
           resolve({ lat, lon });
         } else {
-          reject("blah");
+          reject("Something went wrong");
         }
       },
       () => reject("Location is not allowed")
@@ -66,7 +66,7 @@ const updateWidgets = (currentData) => {
 
   var wind_info = $("<p></p>").text(wind.speed + "kmph");
   var humidity_info = $("<p></p>").text(main.humidity + "%");
-  var pressure_info = $("<p></p>").text(main.pressure + "mb");
+  var pressure_info = $("<p></p>").text(mbToatm(main.pressure) + "atm");
   var visibility_info = $("<p></p>").text(visibility / 1000 + "km");
   $(".bottom-row").append(
     wind_info,
@@ -78,20 +78,25 @@ const updateWidgets = (currentData) => {
   var min_temp = `<div><p>Minimum temp</p><p>${main.temp_min}<sup>&deg</sup>C</p></div>`;
   var max_temp = `<div><p>Maximum temp</p><p>${main.temp_max}<sup>&deg</sup>C</p></div>`;
   var sea_level = `<div><p>Sea level pressure</p><p>${
-    main.sea_level ? main.sea_level : "- "
-  }mb</p></div>`;
+    main.sea_level ? mbToatm(main.sea_level) : "- "
+  }atm</p></div>`;
   var grnd_level = `<div><p>Ground level pressure</p><p>${
-    main.grnd_level ? main.grnd_level : "- "
-  }mb</p></div>`;
+    main.grnd_level ? mbToatm(main.grnd_level) : "- "
+  }atm</p></div>`;
   $(".more-info .info").append(min_temp, max_temp, sea_level, grnd_level);
 
   var country = `<div><p>Country</p><p>${
     sys.country ? sys.country : ""
   }</p></div>`;
   var city = `<div><p>City</p><p>${name}</p></div>`;
-  var sunrise = `<div><p>Sun rise</p><p>${sys.sunrise} unix UTC</p></div>`;
-  var sunset = `<div><p>Sun set</p><p>${sys.sunset} unix UTC</p></div>`;
-  var timeZone = `<div><p>Time zone</p><p>${timezone}s UTC</p></div>`;
+  var sunrise = `<div><p>Sunrise</p><p>${timeConvert(
+    sys.sunrise
+  )}  UTC</p></div>`;
+  var sunset = `<div><p>Sunset</p><p>${timeConvert(sys.sunset)}  UTC</p></div>`;
+  var timeZone = `<div><p>Time zone</p><p>${timeConvert(
+    0,
+    timezone
+  )} UTC</p></div>`;
   $(".location-info .info").append(country, city, timeZone, sunrise, sunset);
 };
 
@@ -115,9 +120,47 @@ const updateBackground = (id) => {
 };
 
 const fetchData = async ({ lat, lon }) => {
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=e83d2990635b79244dfeb46e77e79b0b&units=metric`
-  );
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=e83d2990635b79244dfeb46e77e79b0b&units=metric`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    alert("Server error : " + error);
+    console.log(error);
+  }
+};
+
+// unix time to standard timer converter & timezone
+const timeConvert = (unixTime, timezone = 0) => {
+  // timezone calculation
+  if (timezone) {
+    var date = new Date(unixTime);
+
+    var hours = date.getHours();
+    hours = hours < 10 ? `0${hours}` : `${hours}`;
+
+    var mins = date.getMinutes();
+    mins = mins < 10 ? `0${mins}` : `${mins}`;
+
+    return `${hours}:${mins}`;
+  }
+  // unix to standard time convert
+  var date = new Date(unixTime * 1000);
+
+  var hours = date.getHours();
+  hours = hours < 10 ? `0${hours}` : `${hours}`;
+
+  var mins = date.getMinutes();
+  mins = mins < 10 ? `0${mins}` : `${mins}`;
+
+  return `${hours}:${mins}`;
+};
+
+// pressure converter milibar to atm
+const mbToatm = (pressure) => {
+  const mbInAtm = 0.000986923;
+  let value = Math.round(pressure * mbInAtm * 100) / 100;
+  return value;
 };
