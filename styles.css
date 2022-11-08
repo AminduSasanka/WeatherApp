@@ -63,7 +63,7 @@ main {
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid rgba(140, 140, 140, 0.3);
-  background-image: linear-gradient(to right, rgba(140, 140, 140, 0.4), rgba(140, 140, 140, 0.1));
+  background-image: linear-gradient(to right, rgba(72, 72, 72, 0.4), rgba(72, 72, 72, 0.4));
   -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
   box-shadow: 1px 1px 30px 0 rgba(0, 0, 0, 0.1);
