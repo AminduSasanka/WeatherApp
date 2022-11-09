@@ -31,6 +31,14 @@ $(document).ready(async () => {
       currentData = await fetchData({ lat: 2.786, lon: 35.567 });
       updateWidgets(currentData);
     });
+
+  $(".toggle-btn").click(toggleModal);
+  $(".submit-btn").click(async () => {
+    let coordinates = checkInputs();
+    let newData = await fetchData(coordinates);
+    updateWidgets(newData);
+    toggleModal();
+  });
 });
 
 // widget refresh
@@ -53,6 +61,7 @@ const updateWidgets = (currentData) => {
   updateBackground(weather[0].id);
 
   var weather_icon = `<img src=http://openweathermap.org/img/wn/${weather[0].icon}@4x.png>`;
+  $(".weather-img").empty();
   $(".weather-img").append(weather_icon);
   $(".current-info .sub-heading").html(
     name !== null ? name : "" + "  " + sys.country
@@ -64,6 +73,7 @@ const updateWidgets = (currentData) => {
     "feels like " + Math.floor(main.feels_like) + "<sup>&deg</sup>" + "C"
   );
 
+  $(".bottom-row").empty();
   var wind_info = $("<p></p>").text(wind.speed + "kmph");
   var humidity_info = $("<p></p>").text(main.humidity + "%");
   var pressure_info = $("<p></p>").text(mbToatm(main.pressure) + "atm");
@@ -75,6 +85,8 @@ const updateWidgets = (currentData) => {
     visibility_info
   );
 
+  // weather info
+  $(".more-info .info").empty();
   var min_temp = `<div><p>Minimum temp</p><p>${main.temp_min}<sup>&deg</sup>C</p></div>`;
   var max_temp = `<div><p>Maximum temp</p><p>${main.temp_max}<sup>&deg</sup>C</p></div>`;
   var sea_level = `<div><p>Sea level pressure</p><p>${
@@ -85,6 +97,8 @@ const updateWidgets = (currentData) => {
   }atm</p></div>`;
   $(".more-info .info").append(min_temp, max_temp, sea_level, grnd_level);
 
+  // location info
+  $(".location-info .info").empty();
   var country = `<div><p>Country</p><p>${
     sys.country ? sys.country : ""
   }</p></div>`;
@@ -163,4 +177,25 @@ const mbToatm = (pressure) => {
   const mbInAtm = 0.000986923;
   let value = Math.round(pressure * mbInAtm * 100) / 100;
   return value;
+};
+
+const toggleModal = () => {
+  $(".modal").toggleClass("modal-active");
+};
+
+const checkInputs = () => {
+  let lat_val = $("#lat").val();
+  let lon_val = $("#lon").val();
+
+  if (lat_val == "") {
+    $(".lat-error").text("Please enter valid coordinate");
+  }
+  if (lon_val == "") {
+    $(".lon-error").text("Please enter valid coordinate");
+  }
+  if (lat_val && lon_val) {
+    $(".lat-error").text("");
+    $(".lon-error").text("");
+  }
+  return { lat: Number(lat_val), lon: Number(lon_val) };
 };
